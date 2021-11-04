@@ -1,0 +1,14 @@
+define maker as agent {
+	use makerInit as init.
+	use coffeeEvents as event.
+	use machine as main.
+}
+define grinder as agent {
+	use grinderInit as init.
+	use coffeeEvents as event.
+	use machine as main.
+}
+launchpolicy {
+	launch maker.
+	launch grinder.
+}

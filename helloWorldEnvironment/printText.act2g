@@ -1,0 +1,5 @@
+use dummy as knowledge.
+
+define printText(Text) with
+	pre{ true }
+	post{ true }
