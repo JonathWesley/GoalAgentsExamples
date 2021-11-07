@@ -1,0 +1,27 @@
+use coffee as knowledge.
+
+module grinderEvents {
+	% answer information requests.
+	forall (Machine).sent?(canProduce(_)), bel(canProduce(Product) ; have(Product))
+		do (Machine).send:(canProduce(Product)) + log("Grinder is telling _ " + Machine + " that it can produce _ " + Product + " _.").
+		
+	% process information from other agents.
+	forall (Machine).sent:(canProduce(Product)) do insert(canProduce(Machine,Product)).
+	
+	% process delivery requests.
+	forall (Machine).sent!(have(Product)) do adopt(delivered(Machine,Product)) + log("Grinder heard _ " + Machine + " _ wants _" + Product + " _.").
+	
+	% process actual deliveries.
+	forall (Machine).sent(have(Product)) do insert(have(Product)) + log("Grinder _ now has _" + Product + " _.").
+	
+	% we have a request for a product but we don’t have it yet.
+	if goal(delivered(Machine, Product)) then adopt(have(Product)) + log(Machine + " _ wants _" + Product + " but Grinder does not have it _.").
+	
+	% we can produce it but need an ingredient.
+	if goal(have(Product)), bel(canProduce(Product), requiredFor(Product,Ingredient))
+		then adopt(have(Ingredient)) + log("Grinder is _ getting _ " + Ingredient + " to make _ " + Product + " _.").
+		
+	% if another machine needs a product and we have it, then deliver that product.
+	if goal(delivered(Machine, Product)), bel(have(Product))
+		then (Machine).send(have(Product)) + insert(delivered(Machine, Product)) + log("Grinder is _ delivering _ " + Product + " to _ " + Machine + " _.").
+}

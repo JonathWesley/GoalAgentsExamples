@@ -1,14 +1,14 @@
-define maker as agent {
+define Xavier as agent {
 	use makerInit as init.
-	use coffeeEvents as event.
-	use machine as main.
+	use makerEvents as event.
+	use makerMachine as main.
 }
-define grinder as agent {
+define Logan as agent {
 	use grinderInit as init.
-	use coffeeEvents as event.
-	use machine as main.
+	use grinderEvents as event.
+	use grinderMachine as main.
 }
 launchpolicy {
-	launch maker.
-	launch grinder.
+	launch Xavier.
+	launch Logan.
 }

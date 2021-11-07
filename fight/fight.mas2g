@@ -1,0 +1,14 @@
+define William as agent {
+	use atackerInit as init.
+	use atackerEvent as event.
+	use atacker as main.
+}
+define Phillip as agent {
+	use defenderInit as init.
+	use defenderEvent as event.
+	use defender as main.
+}
+launchpolicy {
+	launch William.
+	launch Phillip.
+}

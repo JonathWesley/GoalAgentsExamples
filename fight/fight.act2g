@@ -1,0 +1,17 @@
+use fight as knowledge.
+% If the Product can be made by us, we will have done so after this action
+define defend(Shield) as internal with
+	pre{ has(Shield) }
+	post{ not(has(Shield)) }
+
+define atack(Weapon) as internal with
+	pre{ has(Weapon) }
+	post{ not(has(Weapon)) }
+	
+define dodge(Boot) as internal with
+	pre{ has(Boot) }
+	post{ not(has(Boot)) }
+	
+define craft(Product) as internal with
+	pre{ canCraft(Product) }
+	post{ has(Product) }

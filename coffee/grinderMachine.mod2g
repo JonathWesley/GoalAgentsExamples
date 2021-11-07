@@ -1,0 +1,37 @@
+use coffee as knowledge.
+use coffee as actionspec.
+
+exit=nogoals.
+
+module grinderMachine {
+	% if another machine needs a product and we have it, then deliver that product.
+	if goal(delivered(Machine, Product)), bel(have(Product))
+		then (Machine).send(have(Product)) + insert(delivered(Machine, Product)).
+		
+	% if we want to have a product and we can make it ourselves, then do so.
+	if goal(have(Product)), bel(canMake(Product)) then make(Product) + log("Grinder is making _ " + Product + " _.").
+	
+	% if we can’t produce something ourselves we need to order it.
+	% if we know who can, tell that machine to make it for us.
+	if goal(have(Product)), bel(canProduce(Machine,Product))
+		then (Machine).send!(have(Product)).
+		
+	% if we don’t know that, ask everyone else what they can make for us.
+	if goal(have(Product)), not(bel(canProduce(_,Product)))
+		then allother.send?(canProduce(_)) + log("Grinder is asking _ what the others can produce _.").
+		
+	% answer information requests.
+	forall (Machine).sent?(canProduce(_)), bel(canProduce(Product) ; have(Product))
+		do (Machine).send:(canProduce(Product)).
+		
+	% process information from other agents.
+	forall (Machine).sent:(canProduce(Product)) do insert(canProduce(Machine,Product)).
+	
+	% we can’t produce it and need to order it.
+	if goal(have(Product)), not(bel(canProduce(Product)))
+		then allother.send!(have(Product)) + log("Grinder is asking for _ " + Product + " _.").
+		
+	% if some agent needs something we can make, adopt the goal to make it
+	forall (Machine).sent!(have(Product)) do adopt(delivered(Machine,Product)) + log("Grinder will make _ " + Product + " for _ " + Machine + " _.").
+	
+}

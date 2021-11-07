@@ -1,0 +1,6 @@
+use fight as knowledge.
+
+module defenderInit {
+	if true then insert(has(boot), nrOfLifes(3)).
+	if true then adopt(has(flag)).
+}
