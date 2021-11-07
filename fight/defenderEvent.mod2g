@@ -4,4 +4,4 @@ module defenderEvent {
 	%decreases the number of lifes from the agent
 	if bel ( nrOfLifes(Count), NewCount is Count - 1 )
 		then delete ( nrOfLifes(Count)) + insert(nrOfLifes(NewCount)).
-}
+} 

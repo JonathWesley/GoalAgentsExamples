@@ -2,5 +2,5 @@ use fight as knowledge.
 
 module atackerInit {
 	if true then insert(has(sword)).
-	if true then adopt(kill(defender)).
+	if true then adopt(dead(defender)).
 }

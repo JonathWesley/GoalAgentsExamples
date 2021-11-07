@@ -1,3 +1,9 @@
+use fight as knowledge.
+use fight as actionspec.
+
+exit=nogoals.
+
 module defender {
-	
+	% if we want to have a product and we can make it ourselves, then do so.
+	if goal(has(Product)), bel(canCraft(Product)) then craft(Product) + log("Defender is making _ " + Product + " _.").
 }

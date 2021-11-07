@@ -4,12 +4,14 @@ canAtack/2, % indicates we can atack someone else.
 canDefend/1, % indicates that we can defend ourselves.
 canDodge/1. % indicates that we can dodge an atack.
 nrOfLifes/1. % indicates how much life an agent has.
-kill/1. % indicates we can kill someone else.
+dead/1. % indicates we can kill someone else.
 
-% Common knowledge of intes that are needed for moves
+% Common knowledge of itens that are needed for moves
 requiredFor(atack, weapon).
 requiredFor(defense, shield).
 requiredFor(dodge, boot).
+% Common knowledge that to kill other agent, his life must be zero
+requiredFor(dead, nrOfLifes(0)).
 % Common knowledge of itens that are needed for making a flag.
 requiredFor(flag, pieceOne).
 requiredFor(flag, pieceTwo).

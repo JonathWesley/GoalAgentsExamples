@@ -6,7 +6,7 @@ define defend(Shield) as internal with
 
 define atack(Weapon) as internal with
 	pre{ has(Weapon) }
-	post{ not(has(Weapon)) }
+	post{ true }
 	
 define dodge(Boot) as internal with
 	pre{ has(Boot) }
