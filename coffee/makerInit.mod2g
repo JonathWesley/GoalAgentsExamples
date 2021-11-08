@@ -1,7 +1,11 @@
-use coffee as knowledge.
+use coffee as knowledge. % utiliza a base de conhecimento criada
 
 module makerInit {
+
+	% insere as crenças de possuir água, grãos de café, e poder produzir café e expresso
 	if true
 		then insert(have(water), have(beans), canProduce(coffee), canProduce(espresso)).
+	
+	% insere o objetivo de produzir uma xícara de café
 	if true then adopt(have(coffee)).
 }

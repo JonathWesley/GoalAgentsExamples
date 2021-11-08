@@ -1,19 +1,19 @@
 :-dynamic 
-have/1, % indicates that we have a product ready for use.
-canProduce/1, % indicates products that we can make ourselves.
-canProduce/2, % indicates that another machine can make a certain product.
-delivered/2. % indicates that a product has been delivered to a certain machine.
+have/1, % indica que temos um produto pronto pra usar
+canProduce/1, % indica que podemos produzir o produto nos mesmos
+canProduce/2, % indica que outro agente pode fazer certo produto
+delivered/2. % indica que um produto foi entrega para um certo agente
 
-% Common knowledge of ingredients that are needed for making a product.
+% Conhecimento comum dos ingredientes necessarios para fazer um produto
 requiredFor(coffee, water).
 requiredFor(coffee, grounds).
 requiredFor(espresso, coffee).
 requiredFor(grounds, beans).
 
-% A machine can make a product if it has the product or it can make all ingredients.
+% Um agente pode fazer um produto se ele ja tem esse produto, ou se ele pode fazer todos os ingredientes
 canMake(Product) :- have(Product).
 canMake(Product) :- canProduce(Product),
 forall(requiredFor(Product, Ingredient), canMake(Ingredient)).
 
-% A short hand for having delivered a product to any machine.
+% definindo que um produto pode ser entregue a qualquer outro agente
 delivered(Product) :- delivered(_,Product).

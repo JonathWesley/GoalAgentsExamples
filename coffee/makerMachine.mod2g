@@ -1,37 +1,30 @@
-use coffee as knowledge.
-use coffee as actionspec.
+use coffee as knowledge. % utiliza a base de conhecimento criada
+use coffee as actionspec. % utiliza a base de ações criada
 
 exit=nogoals.
 
 module makerMachine {
-	% if another machine needs a product and we have it, then deliver that product.
+	% se outro agente precisa de um produto, e nós temos, faz a entrega do produto
 	if goal(delivered(Machine, Product)), bel(have(Product))
 		then (Machine).send(have(Product)) + insert(delivered(Machine, Product)).
 		
-	% if we want to have a product and we can make it ourselves, then do so.
-	if goal(have(Product)), bel(canMake(Product)) then make(Product) + log("Maker is making _ " + Product + " _.").
+	% se nós precisamos de um produto, e podemos faze-lo nós mesmos, então faz
+	if goal(have(Product)), bel(canMake(Product)) then make(Product) + log("Xavier is making _ " + Product + " _.").
 	
-	% if we can’t produce something ourselves we need to order it.
-	% if we know who can, tell that machine to make it for us.
+	% se nós não podemos produzir algo, precisamos pedir por isso
+	% se nós sabemos quem pode fazer, pedimos pra esse agente fazer pra nós
 	if goal(have(Product)), bel(canProduce(Machine,Product))
 		then (Machine).send!(have(Product)).
 		
-	% if we don’t know that, ask everyone else what they can make for us.
+	% se não sabemos quem pode fazer, perguntamos pra todo mundo oq eles podem fazer
 	if goal(have(Product)), not(bel(canProduce(_,Product)))
-		then allother.send?(canProduce(_)) + log("Maker is asking _ what the others can produce _.").
-		
-	% answer information requests.
-	forall (Machine).sent?(canProduce(_)), bel(canProduce(Product) ; have(Product))
-		do (Machine).send:(canProduce(Product)).
-		
-	% process information from other agents.
-	forall (Machine).sent:(canProduce(Product)) do insert(canProduce(Machine,Product)).
+		then allother.send?(canProduce(_)) + log("Xavier is asking _ what the others can produce _.").
 	
-	% we can’t produce it and need to order it.
+	% se não podemos produzir, perguntamos se alguém tem
 	if goal(have(Product)), not(bel(canProduce(Product)))
-		then allother.send!(have(Product)) + log("Maker is asking for _ " + Product + " _.").
+		then allother.send!(have(Product)) + log("Xavier is asking for _ " + Product + " _.").
 		
-	% if some agent needs something we can make, adopt the goal to make it
-	forall (Machine).sent!(have(Product)) do adopt(delivered(Machine,Product)) + log("Maker will make _ " + Product + " for _ " + Machine + " _.").
+	% se algum outro agente precisa de algo que sabemos fazer, adota o objetivo de fazer
+	forall (Machine).sent!(have(Product)) do adopt(delivered(Machine,Product)) + log("Xavier will make _ " + Product + " for _ " + Machine + " _.").
 	
 }

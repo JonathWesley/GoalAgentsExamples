@@ -19,13 +19,6 @@ module grinderMachine {
 	% if we don’t know that, ask everyone else what they can make for us.
 	if goal(have(Product)), not(bel(canProduce(_,Product)))
 		then allother.send?(canProduce(_)) + log("Grinder is asking _ what the others can produce _.").
-		
-	% answer information requests.
-	forall (Machine).sent?(canProduce(_)), bel(canProduce(Product) ; have(Product))
-		do (Machine).send:(canProduce(Product)).
-		
-	% process information from other agents.
-	forall (Machine).sent:(canProduce(Product)) do insert(canProduce(Machine,Product)).
 	
 	% we can’t produce it and need to order it.
 	if goal(have(Product)), not(bel(canProduce(Product)))

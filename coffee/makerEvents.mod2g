@@ -1,27 +1,27 @@
-use coffee as knowledge.
+use coffee as knowledge. % utiliza a base de conhecimento criada
 
 module makerEvents {
-	% answer information requests.
+	% responde informações sobre oque pode produzir
 	forall (Machine).sent?(canProduce(_)), bel(canProduce(Product) ; have(Product))
-		do (Machine).send:(canProduce(Product)) + log("Maker is telling _ " + Machine + " that it can produce _ " + Product + " _.").
+		do (Machine).send:(canProduce(Product)) + log("Xavier is telling _ " + Machine + " that it can produce _ " + Product + " _.").
 		
-	% process information from other agents.
+	% processa informação sobre outros agentes
 	forall (Machine).sent:(canProduce(Product)) do insert(canProduce(Machine,Product)).
 	
-	% process delivery requests.
-	forall (Machine).sent!(have(Product)) do adopt(delivered(Machine,Product)) + log("Maker heard _ " + Machine + " _ wants _" + Product + " _.").
+	% precessa os pedidos de entrega
+	forall (Machine).sent!(have(Product)) do adopt(delivered(Machine,Product)) + log("Xavier heard _ " + Machine + " _ wants _" + Product + " _.").
 	
-	% process actual deliveries.
-	forall (Machine).sent(have(Product)) do insert(have(Product)) + log("Maker _ now has _" + Product + " _.").
+	% processa as reais entregas
+	forall (Machine).sent(have(Product)) do insert(have(Product)) + log("Xavier _ now has _" + Product + " _.").
 	
-	% we have a request for a product but we don’t have it yet.
-	if goal(delivered(Machine, Product)) then adopt(have(Product)) + log(Machine + " _ wants _" + Product + " but Maker does not have it _.").
+	% recebemos o pedido de um item, mas não possuímos ele ainda
+	if goal(delivered(Machine, Product)) then adopt(have(Product)) + log(Machine + " _ wants _" + Product + " but Xavier does not have it _.").
 	
-	% we can produce it but need an ingredient.
+	% nós podemos produzir, mas precisamos do ingrediente
 	if goal(have(Product)), bel(canProduce(Product), requiredFor(Product,Ingredient))
-		then adopt(have(Ingredient)) + log("Maker is _ getting _ " + Ingredient + " to make _ " + Product + " _.").
+		then adopt(have(Ingredient)) + log("Xavier is _ getting _ " + Ingredient + " to make _ " + Product + " _.").
 		
-	% if another machine needs a product and we have it, then deliver that product.
+	% se outro agente precisa do produto, e nós temos, entrega o produto
 	if goal(delivered(Machine, Product)), bel(have(Product))
-		then (Machine).send(have(Product)) + insert(delivered(Machine, Product)) + log("Maker is _ delivering _ " + Product + " to _ " + Machine + " _.").
+		then (Machine).send(have(Product)) + insert(delivered(Machine, Product)) + log("Xavier is _ delivering _ " + Product + " to _ " + Machine + " _.").
 }

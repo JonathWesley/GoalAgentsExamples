@@ -1,5 +1,5 @@
 use coffee as knowledge.
-% If the Product can be made by us, we will have done so after this action
+% se o produto pode ser feito por nós, ele estará pronto ao final da ação
 define make(Product) as internal with
 	pre{ canMake(Product) }
 	post{ have(Product) }

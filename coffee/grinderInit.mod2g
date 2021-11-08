@@ -1,6 +1,10 @@
-use coffee as knowledge.
+use coffee as knowledge. % utiliza a base de conhecimento criada
 
-module grinderInit {
-	if true then insert(canProduce(grounds)).
-	if true then adopt(delivered(grounds)).
+module grinderInit { 
+
+	% insere a crenca de que o agente pode produzir pó de café
+	if true then insert(canProduce(grounds)). 
+	
+	% insere o objetivo do agente entregar pó de café
+	if true then adopt(delivered(grounds)). 
 }
